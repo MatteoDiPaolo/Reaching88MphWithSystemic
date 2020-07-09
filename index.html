@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="/favicon.ico" />
+	<title>Reaching 88 mph with Systemic</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Matteo Di Paolo">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<link rel="stylesheet" href="index.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+
+	<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+			<section>
+				<h2>Reaching 88 mph with Systemic</h2>
+				<small>A minimal dependency injection library for node.js</small>
+				<br>
+				<img style="margin: 0px !important; border: 0px !important; opacity: 0.8; background-color: transparent; box-shadow: none;"
+					height="350" data-src="./images/1.png" alt="...">
+				<p style="margin: 0px !important;">
+					<small style="text-align: left; margin-right: 40px;">Matteo Di Paolantonio</small>
+					<small class="gs-text" style="text-align: right; margin-left: 40px;">10/07/2020</small>
+				</p>
+			</section>
+
+			<section>
+				<h2>Agenda</h2>
+				<ol>
+					<li><span>What</span></li>
+					<li><span>Why</span></li>
+					<li>
+						<span>Main Concepts</span>
+						<ul style="font-size: 30px;">
+							<li><span class="gs-text">Systems and Components</span></li>
+							<li><span class="gs-text">Dependency injection</span></li>
+							<li><span class="gs-text">Systems manifest and runners</span></li>
+						</ul>
+					</li>
+					<li>
+						<span>Systemic and microservices</span>
+						<ul style="font-size: 30px;">
+							<li><span class="gs-text">Generator-systemic</span></li>
+							<li><span class="gs-text">Hexagonal architecture</span></li>
+						</ul>
+					</li>
+				</ol>
+			</section>
+
+			<section>
+				<h2>WHAT</h2>
+				<blockquote cite="https://www.npmjs.com/package/systemic" style="font-size: 39px;">
+					&ldquo;
+					A minimal dependency injection library
+					&rdquo;
+				</blockquote>
+				<br>
+				<p style="margin: 0;">Created bearing in mind the</p>
+				<p style="margin: 0;"><a href="https://12factor.net/">twelve-factor app methodology</a></p>
+				<p style="margin: 0;">for building software-as-a-service apps</p>
+				<br>
+				<p>
+				<ul>
+					<li><span>open source on </span><a href="https://github.com/guidesmiths/systemic">github</a></li>
+					<li><span>available on </span><a href="https://www.npmjs.com/package/systemic">npm</a></li>
+				</ul>
+				</p>
+
+				<aside class="notes">
+					- software-as-a-service apps are the foundamentals of microservices architectures<br>
+					- systemic was born as dependency injection library but the final goal was to create 12-factor
+					microservices with it<br>
+					- II dependencies and III config are the most clear example but many of the bullets are
+					systemic-friendly
+				</aside>
+			</section>
+
+			<section>
+				<section>
+					<h2>WHY</h2>
+					<ol>
+						<li>
+							<span>Managing dependencies in Node.js</span>
+							<ul style="font-size: 30px;">
+								<li>
+									<span>Encourages </span>
+									<a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">Single
+										Responsibility Principle</a>
+								</li>
+								<li>
+									<span>Discourages </span>
+									<a href="https://en.wikipedia.org/wiki/God_object">God Objects</a>
+								</li>
+								<li>
+									<span>Facilitates </span>
+									<a href="https://en.wikipedia.org/wiki/Test_double">Test Doubles</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<span>Lean and unopnionated</span>
+							<ul style="font-size: 30px;">
+								<li><span>Not a framework</span></li>
+								<li><span>Wires components through their manifest</span></li>
+								<li><span>Everything can be a component</span></li>
+							</ul>
+						</li>
+					</ol>
+
+					<aside class="notes">
+						- apart from the 12-factor approach promise above mentioned<br>
+						- single responsibility: modules / classes / etc. are ment to encapsulate one purpose only<br>
+						- god objects: typical anti-pattern, it knows / does too much (divide-and-conquer is
+						preferred)<br>
+						- test double: a generic (meta) term used for objects or procedures that look and behave like
+						their release-intended counterparts (stubs)<br>
+						- not a framework: nestjs is an example<br>
+						-- systemic does not impose anything<br>
+						-- it does not tell which components you have to create or what is and what is not a
+						component<br>
+						-- it is just the glue that wires the components that you decided to have according to your
+						specific business logic<br>
+					</aside>
+				</section>
+
+				<section>
+					<h2>The Systemic redemption</h2>
+					<div class="row">
+						<div class="column" style="text-align: left;">
+							<ul style="font-size: 30px;">
+								<li><span>Common microservices structure</span></li>
+								<li><span>No concern about start / stop order</span></li>
+								<li><span>Graceful shutdown out-of-the-box</span></li>
+							</ul>
+							<hr>
+							<ul style="font-size: 30px;">
+								<li><span>Steep learnign curve</span></li>
+								<li><span>Not widely used</span></li>
+							</ul>
+						</div>
+						<div class="column">
+							<img style="margin: 50px 0 0 0 !important; border: 0px !important; opacity: 0.8; background-color: transparent; box-shadow: none;"
+								height="200" data-src="./images/2.png" alt="...">
+						</div>
+					</div>
+
+					<aside class="notes">
+						- from institutionalization to freedom and the path is not so easy but the reward is worth
+						it<br>
+						- alignement of development<br>
+					</aside>
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Main concepts</h2>
+					<ul>
+						<li><span>SYSTEMS</span></li>
+						<ul>
+							<li><span>COMPONENTS</span></li>
+							<ul>
+								<li><span>START interface</span></li>
+								<ul style="font-size: 30px;">
+									<li>Starts the component</li>
+									<li>Exposes component's methods</li>
+								</ul>
+								<li><span>STOP interface</span></li>
+								<ul style="font-size: 30px;">
+									<li>Stops the component</li>
+									<li>Closes any dangling connection</li>
+								</ul>
+								<li><span>DEPENDENCY INJECTION</span></li>
+							</ul>
+							<li><span>MANIFESTS</span></li>
+							<li><span>RUNNERS</span></li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<h2>talk is cheap</h2>
+					<img height="200" data-src="./images/3.gif" alt="...">
+					<br>
+					<small>
+						<a href="https://github.com/MatteoDiPaolo/systemic-examples">code examples here</a>
+					</small>
+
+					<aside class="notes">
+						- 1 system with 2 components<br>
+						- 1 system and 2 subsystems with 2 components each. Subsystems must be started prior to use
+						them<br>
+						- 1 system and 2 subsystems with 2 components each. Subsystems are started when bootstrapping
+						the system<br>
+						- 1 system and 2 subsystems with 2 components each. Same as above but with other folder
+						structure<br>
+						- 1 system and 3 subsystems with 1 components each. Real life. Components dependencies. Scoped
+						config. Two instantiated mongos.<br>
+						- 1 system and 3 subsystems with 1 components each. Same as before but with Runner.<br>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Systems and Runners</h2>
+					<p style="text-align: left; font-size: 25px; padding-left: 48px; margin-bottom: 0;" class="gs-text">
+						system</p>
+					<pre style="font-size: 15px; margin-top: 0;"><code class="hljs js" style="word-wrap: break-word;">
+const components = path.join(__dirname, 'components')
+const exampleSystem = () => new System({ name: 'exampleSystem' }).bootstrap(components);
+					</code></pre>
+					<p style="text-align: left; font-size: 25px; padding-left: 48px; margin-bottom: 0;" class="gs-text">
+						runner</p>
+					<pre style="font-size: 15px; margin-top: 0;"><code class="hljs js" style="word-wrap: break-word;">
+runner(exampleSystem(), { logger: emergencyLogger }).start((err, components) => {
+  	if (err) {
+		emergencyLogger.error(err, message);
+		process.exit(1);
+  	}
+  	logger.info('The system has started');
+});
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Manifests and Components</h2>
+					<p style="text-align: left; font-size: 25px; padding-left: 48px; margin-bottom: 0;" class="gs-text">
+						manifest</p>
+					<pre style="font-size: 15px; margin-top: 0;"><code class="hljs js" style="word-wrap: break-word;">
+const loggerSystem = () => new System({ name: 'loggerSystem' })
+	.add('logger', logger())
+	.dependsOn('config')
+					</code></pre>
+					<p style="text-align: left; font-size: 25px; padding-left: 48px; margin-bottom: 0;" class="gs-text">
+						component</p>
+					<pre style="font-size: 15px; margin-top: 0;"><code class="hljs js" style="word-wrap: break-word;">
+const logger = () => {
+	const start = async ({config}) => {
+		console.log(`starting logger with config: ${config}`);
+		return console
+	};
+	const stop = async () => {
+		console.log('stopping logger');
+	};
+
+	return { start, stop };
+};
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>wrap up</h2>
+					<img data-src="./images/4.png" alt="...">
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h2>Systemic and microservices</h2>
+					<div class="row">
+						<div class="column" style="text-align: left;">
+							<ul style="font-size: 30px;">
+								<li><span>Hexagonal architecture</span></li>
+								<li><span>Single responsibility</span></li>
+								<li><span>Fine-grained separation of concerns</span></li>
+								<li><span>Versioning and aliasing</span></li>
+								<li><span>Tests stubs</span></li>
+								<li><span>Out-of-the-box systemic components</span></li>
+							</ul>
+						</div>
+						<div class="column">
+							<img height="300" data-src="./images/5.png" alt="...">
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h2>Generator-Systemic</h2>
+					<blockquote cite="https://www.npmjs.com/package/generator-systemic" style="font-size: 39px;">
+						&ldquo;
+						A generator for a systemic microservice
+						&rdquo;
+					</blockquote>
+					<br>
+					<ul style="font-size: 30px;">
+						<li><code>yo systemic</code></li>
+						<li><code>yo systemic --showcase</code></li>
+					</ul>
+					<hr>
+					<p>
+					<ul>
+						<li><span>open source on </span><a
+								href="https://github.com/guidesmiths/generator-systemic">github</a></li>
+						<li><span>available on </span><a href="https://www.npmjs.com/package/generator-systemic">npm</a>
+						</li>
+					</ul>
+					</p>
+				</section>
+
+				<section>
+					<h2>yo systemic</h2>
+					<p>A white canvas service into which creating the components you do prefer according to your
+						specific business logic.</p>
+					<img height="200" data-src="./images/6.png" alt="...">
+					<p style="font-size: 30px;">Out-of-the-box non-business-logic-related components</p>
+					<small class="gs-text">Config - Logger - Server</small>
+
+					<aside class="notes">
+						- small box full of already useful code<br>
+						- we'll see more in a minute<br>
+					</aside>
+				</section>
+
+				<section>
+					<h2>yo systemic</h2>
+					<img height="300" data-src="./images/7.gif" alt="...">
+
+					<aside class="notes">
+						- package json: npm run start / npm run test<br>
+						- index.js: runner<br>
+						- system.js: bootstrap of components<br>
+						- components: app / logger / express / config / routes / routes.admin
+						- config: confabulus overrides default.js with specific config (e.g. test.js)
+						- test: mocha tests manifest endpoint
+						- docs: swagger-endpoint-validator and syncapi.yaml - http://localhost:4000/__/docs/api/
+						- docker: ready to be shipped
+					</aside>
+				</section>
+
+				<section>
+					<h2>yo systemic --showcase</h2>
+					<p>A not so white canvas with a given business logic already in place to help you better understand
+						how to get the best out of Systemic.</p>
+					<div class="row">
+						<div class="column">
+							<img height="210" data-src="./images/8.png" alt="...">
+							<img height="210" data-src="./images/9.png" alt="...">
+						</div>
+					</div>
+
+					<aside class="notes">
+						- two business logic workflows<br>
+						- two versions of api<br>
+					</aside>
+				</section>
+
+				<section>
+					<h2>yo systemic --showcase</h2>
+					<img height="300" data-src="./images/10.gif" alt="...">
+
+					<aside class="notes">
+						- package json: npm run start / npm run test / npm run infra<br>
+						- components: routes, controller, bus, and store<br>
+						- systemic mongo and rabbit<br>
+						- config: confabulus overrides default.js with specific config (e.g. test.js)
+						- test: more than before
+						- docs: swagger-endpoint-validator and syncapi.yaml more than before - http://localhost:4000/__/docs/api/
+						- docker and docker file
+					</aside>
+				</section>
+
+				<section>
+					<h2>yo systemic --showcase</h2>
+					<img height="500" data-src="./images/11.png" alt="...">
+				</section>
+			</section>
+
+			<section>
+				<h2>Thank you</h2>
+				<img height="300" data-src="./images/12.gif" alt="...">
+			</section>
+
+		</div>
+
+	</div>
+
+	<script src="js/reveal.js"></script>
+
+	<script>
+
+		// More info https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
+
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+			// More info https://github.com/hakimel/reveal.js#dependencies
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js' },
+				{ src: 'plugin/search/search.js', async: true },
+				{ src: 'plugin/zoom-js/zoom.js', async: true },
+				{ src: 'plugin/notes/notes.js', async: true }
+			]
+		});
+
+	</script>
+
+</body>
+
+</html>

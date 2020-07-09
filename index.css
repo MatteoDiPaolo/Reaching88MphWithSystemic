@@ -1,0 +1,52 @@
+.gs-text {
+    color: #17ae8e;
+}
+
+.mr-red-text {
+    color: #e6194B;
+}
+
+.mr-blonde-text {
+    color: #ffe119;
+}
+
+.mr-green-text {
+    color: #3cb44b;
+}
+
+.mr-blue-text {
+    color: #4363d8;
+}
+
+.mr-pink-text {
+    color: #e6beff;
+}
+
+li {
+    color: #17ae8e;
+}
+
+li span {
+    color: white;
+}
+
+img {
+    border: 3px solid #17ae8e !important;
+}
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+}
+
+.bounce-down {
+    -webkit-animation: bounce-down 2s 50 both ease-out;
+    animation: bounce-down 2s 50 both ease-out;
+}
+
+.perspective {
+    transform: perspective(400px) rotateY(-15deg);
+}
